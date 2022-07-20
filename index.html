@@ -5,19 +5,65 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
   <title>Lista de Convidado</title>
+
+  <style>
+    body{
+      background-color: black;
+      color: white;
+    }
+    h1 {
+      border-color: white;
+    }
+
+    .btnCadastrar {
+      margin-top: 5px;
+      border-radius: 5px;
+      color: brown;
+      background-color: black;
+      font-size: 14px;
+    }
+
+    .btnCadastrar:hover {
+      color: deepskyblue;
+      background-color: darkgreen;
+      width: 100px;
+      height: 25px;
+    }
+
+    .lista {
+      font-size: 28px;
+      font-style: italic;
+      
+    }
+
+    a{
+      margin-left: 5px;
+      font-size: 20px;
+      color: coral;
+    }
+
+    a:hover{
+      font-size: 25px;
+      color: red;
+    }
+
+  </style>
+
 </head>
 
 <body>
-  <div id="app"></div>
+  
+  <div id="app" class="container"></div>
 
   <h1>Lista de Convidado</h1>
 
   <ul id="lista">
 
   </ul>
-  <input id="campo" type="text" placeholder="Digite o nome do convidado" />
-  <button id="botao">Cadastrar</button>
+  <input id="nome" type="text" placeholder="Digite o nome do convidado" /><br>
+  <button id="botao" class="btnCadastrar">Cadastrar</button>
 
   </div>
   <script type="text/javascript">
@@ -25,13 +71,13 @@
     var convidados = JSON.parse(localStorage.getItem("convidados")) || [];
 
     var ellista = document.getElementById("lista");
-    var elcampo = document.getElementById("campo");
+    var elnome = document.getElementById("nome");
     var elbotao = document.getElementById("botao");
 
     elbotao.onclick = function () {
-      var nome = elcampo.value;
+      var nome = elnome.value;
       convidados.push({ nome: nome });
-      elcampo.value = "";
+      elnome.value = "";
 
       salvarConvidado();
       listarConvidado();
@@ -47,7 +93,9 @@
       ellista.innerHTML = "";
       for (const convidado of convidados) {
         var elConvidado = document.createElement("li");
+        elConvidado.setAttribute("class", "lista");
         var elNome = document.createTextNode(convidado.nome);
+
 
         var elExcluir = document.createElement("a");
         elExcluir.setAttribute("href", '#');
