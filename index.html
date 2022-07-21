@@ -9,13 +9,23 @@
   <title>Lista de Convidado</title>
 
   <style>
-    body{
+    body {
       background-color: black;
       color: white;
+      text-align: center;
     }
+
     h1 {
+      font-size: 55px;
       border-color: white;
+      margin: 10px 10px 10px 10px;
     }
+
+    .lista {
+      width: 300px;
+      text-align: left;      
+    }
+
 
     .btnCadastrar {
       margin-top: 5px;
@@ -35,66 +45,97 @@
     .lista {
       font-size: 28px;
       font-style: italic;
-      
+      list-style: none;
+
+
     }
 
-    a{
+    a {
       margin-left: 5px;
       font-size: 20px;
       color: coral;
     }
 
-    a:hover{
+    a:hover {
       font-size: 25px;
-      color: red;
+
     }
 
+    .boxText {
+      margin: 1px 15px 15px 5px;
+      border-radius: 5px;
+      font-size: 20px;
+      width: 260px;
+    }
+
+    .boxText:hover {
+      background-color: darkgrey;
+      color: blue;
+    }
+
+    footer {
+      text-align: center;
+      color: aliceblue;
+    }
+
+    .txt {
+      color: aliceblue;
+    }
   </style>
 
 </head>
 
-<body>
-  
-  <div id="app" class="container"></div>
+<body onload="startTime()">
 
-  <h1>Lista de Convidado</h1>
+  <div id="app" class="container">
 
-  <ul id="lista">
+    <h1>Lista de Convidado</h1>
+    <input class="boxText" id="nome" type="text" placeholder=" Digite o nome do convidado" /><br>
+    <input class="boxText" id="idade" type="text" placeholder="  Digite idade"><br>
+    <button id="botao" class="btnCadastrar">Cadastrar</button>
 
-  </ul>
-  <input id="nome" type="text" placeholder="Digite o nome do convidado" /><br>
-  <button id="botao" class="btnCadastrar">Cadastrar</button>
+    <div class="lista">
+      <ul id="lista">
+
+      </ul>
+    </div>
 
   </div>
+
+  <footer>Helinton R Oliveira &copy; <div id="txt"></div></footer>
+
   <script type="text/javascript">
 
     var convidados = JSON.parse(localStorage.getItem("convidados")) || [];
 
     var ellista = document.getElementById("lista");
     var elnome = document.getElementById("nome");
+    var elidade = document.getElementById("idade");
     var elbotao = document.getElementById("botao");
 
     elbotao.onclick = function () {
+
       var nome = elnome.value;
-      convidados.push({ nome: nome });
+      var idade = elidade.value;
+      convidados.push({ nome: nome, idade: idade });
       elnome.value = "";
+      elidade.value = "";
 
       salvarConvidado();
       listarConvidado();
-    }
 
+    }
 
     function salvarConvidado() {
       localStorage.setItem("convidados", JSON.stringify(convidados));
     };
-
 
     function listarConvidado() {
       ellista.innerHTML = "";
       for (const convidado of convidados) {
         var elConvidado = document.createElement("li");
         elConvidado.setAttribute("class", "lista");
-        var elNome = document.createTextNode(convidado.nome);
+        var listaConv = document.createTextNode(convidado.nome + ", " + convidado.idade + " anos");
 
 
         var elExcluir = document.createElement("a");
@@ -108,11 +149,10 @@
           listarConvidado();
         };
 
-
         var elExcluirTexto = document.createTextNode("Excluir");
 
         elExcluir.appendChild(elExcluirTexto);
-        elConvidado.appendChild(elNome);
+        elConvidado.appendChild(listaConv);
         elConvidado.appendChild(elExcluir);
         ellista.appendChild(elConvidado);
       }
@@ -120,6 +160,30 @@
     }
 
     listarConvidado();
+
+    // Relogio
+
+    function startTime() {
+      var today = new Date();
+      var h = today.getHours();
+      var m = today.getMinutes();
+      var s = today.getSeconds();
+      // adicione um zero na frente de números<10
+      m = checkTime(m);
+      s = checkTime(s);
+      document.getElementById('txt').innerHTML = h + ":" + m + ":" + s;
+      t = setTimeout('startTime()', 500);
+    }
+    function checkTime(i) {
+      if (i < 10) {
+        i = "0" + i;
+      }
+      return i;
+    }
+
+
+
+
 
 
   </script>
